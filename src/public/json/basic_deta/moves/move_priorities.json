@@ -1,0 +1,303 @@
+[
+  {
+    "id": 1,
+    "move_id": 1,
+    "priority": 5,
+    "name": "てだすけ",
+    "description": "味方の技の優先度を+1する"
+  },
+  {
+    "id": 2,
+    "move_id": 2,
+    "priority": 4,
+    "name": "みきり",
+    "description": "相手の攻撃を完全に防ぐ"
+  },
+  {
+    "id": 3,
+    "move_id": 3,
+    "priority": 4,
+    "name": "まもる",
+    "description": "相手の攻撃を完全に防ぐ"
+  },
+  {
+    "id": 4,
+    "move_id": 4,
+    "priority": 4,
+    "name": "こらえる",
+    "description": "相手の攻撃を完全に防ぐ"
+  },
+  {
+    "id": 5,
+    "move_id": 5,
+    "priority": 4,
+    "name": "ニードルガード",
+    "description": "相手の攻撃を完全に防ぐ"
+  },
+  {
+    "id": 6,
+    "move_id": 6,
+    "priority": 4,
+    "name": "トーチカ",
+    "description": "相手の攻撃を完全に防ぐ"
+  },
+  {
+    "id": 7,
+    "move_id": 7,
+    "priority": 4,
+    "name": "スレッドトラップ",
+    "description": "相手の攻撃を完全に防ぐ"
+  },
+  {
+    "id": 8,
+    "move_id": 8,
+    "priority": 4,
+    "name": "かえんのまもり",
+    "description": "相手の攻撃を完全に防ぐ"
+  },
+  {
+    "id": 9,
+    "move_id": 9,
+    "priority": 3,
+    "name": "ねこだまし",
+    "description": "相手をひるませる"
+  },
+  {
+    "id": 10,
+    "move_id": 10,
+    "priority": 3,
+    "name": "ファストガード",
+    "description": "味方を先制技から守る"
+  },
+  {
+    "id": 11,
+    "move_id": 11,
+    "priority": 3,
+    "name": "ワイドガード",
+    "description": "味方を範囲技から守る"
+  },
+  {
+    "id": 12,
+    "move_id": 12,
+    "priority": 3,
+    "name": "はやてがえし",
+    "description": "相手の技を跳ね返す"
+  },
+  {
+    "id": 13,
+    "move_id": 13,
+    "priority": 2,
+    "name": "サイドチェンジ",
+    "description": "味方と位置を入れ替える"
+  },
+  {
+    "id": 14,
+    "move_id": 14,
+    "priority": 2,
+    "name": "しんそく",
+    "description": "必ず先制攻撃"
+  },
+  {
+    "id": 15,
+    "move_id": 15,
+    "priority": 2,
+    "name": "フェイント",
+    "description": "相手の技を無効化して攻撃"
+  },
+  {
+    "id": 16,
+    "move_id": 16,
+    "priority": 2,
+    "name": "このゆびとまれ",
+    "description": "相手の攻撃を自分に集中させる"
+  },
+  {
+    "id": 17,
+    "move_id": 17,
+    "priority": 2,
+    "name": "いかりのこな",
+    "description": "相手を怒らせる"
+  },
+  {
+    "id": 18,
+    "move_id": 18,
+    "priority": 2,
+    "name": "であいがしら",
+    "description": "相手をひるませる"
+  },
+  {
+    "id": 19,
+    "move_id": 19,
+    "priority": 1,
+    "name": "アクアジェット",
+    "description": "水の勢いで攻撃"
+  },
+  {
+    "id": 20,
+    "move_id": 20,
+    "priority": 1,
+    "name": "つぶらなひとみ",
+    "description": "相手の攻撃を下げる"
+  },
+  {
+    "id": 21,
+    "move_id": 21,
+    "priority": 1,
+    "name": "バレットパンチ",
+    "description": "鋼の拳で攻撃"
+  },
+  {
+    "id": 22,
+    "move_id": 22,
+    "priority": 1,
+    "name": "こおりのつぶて",
+    "description": "氷の塊で攻撃"
+  },
+  {
+    "id": 23,
+    "move_id": 23,
+    "priority": 1,
+    "name": "マッハパンチ",
+    "description": "超高速の拳で攻撃"
+  },
+  {
+    "id": 24,
+    "move_id": 24,
+    "priority": 1,
+    "name": "でんこうせっか",
+    "description": "電気の勢いで攻撃"
+  },
+  {
+    "id": 25,
+    "move_id": 25,
+    "priority": 1,
+    "name": "かげうち",
+    "description": "影から攻撃"
+  },
+  {
+    "id": 26,
+    "move_id": 26,
+    "priority": 1,
+    "name": "しんくうは",
+    "description": "真空波で攻撃"
+  },
+  {
+    "id": 27,
+    "move_id": 27,
+    "priority": 1,
+    "name": "ふいうち",
+    "description": "不意打ちで攻撃"
+  },
+  {
+    "id": 28,
+    "move_id": 28,
+    "priority": 1,
+    "name": "みずしゅりけん",
+    "description": "水の手裏剣で攻撃"
+  },
+  {
+    "id": 29,
+    "move_id": 29,
+    "priority": 1,
+    "name": "アクセルロック",
+    "description": "加速して攻撃"
+  },
+  {
+    "id": 30,
+    "move_id": 30,
+    "priority": 1,
+    "name": "グラススライダー",
+    "description": "グラスフィールド状態で威力が上がる"
+  },
+  {
+    "id": 31,
+    "move_id": 31,
+    "priority": 1,
+    "name": "ジェットパンチ",
+    "description": "水の勢いで攻撃"
+  },
+  {
+    "id": 32,
+    "move_id": 32,
+    "priority": 1,
+    "name": "じんらい",
+    "description": "神速で攻撃"
+  },
+  {
+    "id": 33,
+    "move_id": 33,
+    "priority": -3,
+    "name": "きあいパンチ",
+    "description": "気合いを込めた攻撃"
+  },
+  {
+    "id": 34,
+    "move_id": 34,
+    "priority": -3,
+    "name": "くちばしキャノン",
+    "description": "くちばしで攻撃"
+  },
+  {
+    "id": 35,
+    "move_id": 35,
+    "priority": -4,
+    "name": "ゆきなだれ",
+    "description": "雪崩で攻撃"
+  },
+  {
+    "id": 36,
+    "move_id": 36,
+    "priority": -5,
+    "name": "カウンター",
+    "description": "物理攻撃を2倍で返す"
+  },
+  {
+    "id": 37,
+    "move_id": 37,
+    "priority": -5,
+    "name": "ミラーコート",
+    "description": "特殊攻撃を2倍で返す"
+  },
+  {
+    "id": 38,
+    "move_id": 38,
+    "priority": -6,
+    "name": "ともえなげ",
+    "description": "相手を交代させる"
+  },
+  {
+    "id": 39,
+    "move_id": 39,
+    "priority": -6,
+    "name": "ドラゴンテール",
+    "description": "相手を交代させる"
+  },
+  {
+    "id": 40,
+    "move_id": 40,
+    "priority": -6,
+    "name": "ふきとばし",
+    "description": "相手を交代させる"
+  },
+  {
+    "id": 41,
+    "move_id": 41,
+    "priority": -6,
+    "name": "ほえる",
+    "description": "相手を交代させる"
+  },
+  {
+    "id": 42,
+    "move_id": 42,
+    "priority": -6,
+    "name": "テレポート",
+    "description": "自分を交代させる"
+  },
+  {
+    "id": 43,
+    "move_id": 43,
+    "priority": -7,
+    "name": "トリックルーム",
+    "description": "すばやさの順番を逆転させる"
+  }
+]
