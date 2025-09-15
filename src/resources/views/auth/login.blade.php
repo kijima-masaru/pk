@@ -55,23 +55,10 @@
         @enderror
     </div>
 
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
-        <label class="form-check-label" for="remember">
-            ログイン状態を保持する
-        </label>
-    </div>
-
     <div class="d-grid mb-3">
         <button type="submit" class="btn btn-primary btn-lg">
             <i class="fas fa-sign-in-alt me-2"></i>ログイン
         </button>
-    </div>
-
-    <div class="text-center">
-        <a href="{{ route('password.request') }}" class="text-decoration-none">
-            パスワードを忘れた方はこちら
-        </a>
     </div>
 
     <hr class="my-4">

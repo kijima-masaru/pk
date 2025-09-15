@@ -23,10 +23,6 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
-// パスワードリセット（後で実装）
-Route::get('/password/reset', function () {
-    return view('auth.forgot-password');
-})->name('password.request');
 
 // ダッシュボード（認証が必要）
 Route::get('/dashboard', function () {
