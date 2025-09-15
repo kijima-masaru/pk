@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BulkDataController;
+use App\Http\Controllers\MyPokemonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,12 +33,21 @@ Route::get('/dashboard', function () {
 
 // ホーム（認証が必要）
 Route::get('/home', function () {
-    return view('home');
+    $pokemonCount = \App\Models\MyPokemon::where('user_id', auth()->id())->count();
+    $partyCount = \App\Models\MyParty::where('user_id', auth()->id())->count();
+    
+    return view('home', compact('pokemonCount', 'partyCount'));
 })->middleware('auth')->name('home');
 
 // データ一括保存（認証が必要）
 Route::get('/bulk-data', [BulkDataController::class, 'index'])->middleware('auth')->name('bulk-data');
 Route::post('/bulk-data', [BulkDataController::class, 'store'])->middleware('auth')->name('bulk-data.store');
+
+// ポケモン管理（認証が必要）
+Route::get('/pokemon', [MyPokemonController::class, 'index'])->middleware('auth')->name('pokemon.index');
+Route::get('/pokemon/create', [MyPokemonController::class, 'create'])->middleware('auth')->name('pokemon.create');
+Route::post('/pokemon', [MyPokemonController::class, 'store'])->middleware('auth')->name('pokemon.store');
+Route::get('/pokemon/forms', [MyPokemonController::class, 'getPokemonForms'])->middleware('auth')->name('pokemon.forms');
 
 // トップページ（未認証時はログイン画面へリダイレクト）
 Route::get('/', function () {

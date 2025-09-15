@@ -56,9 +56,12 @@
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
-                    <button class="btn btn-outline-primary btn-lg" disabled>
+                    <a href="{{ route('pokemon.create') }}" class="btn btn-primary btn-lg">
                         <i class="fas fa-plus me-2"></i>ポケモンを登録
-                    </button>
+                    </a>
+                    <a href="{{ route('pokemon.index') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-list me-2"></i>ポケモン一覧
+                    </a>
                     <button class="btn btn-outline-success btn-lg" disabled>
                         <i class="fas fa-users me-2"></i>パーティを作成
                     </button>
@@ -69,7 +72,7 @@
                 <div class="mt-3">
                     <small class="text-muted">
                         <i class="fas fa-info-circle me-1"></i>
-                        これらの機能は今後実装予定です
+                        パーティ作成とダメージ計算は今後実装予定です
                     </small>
                 </div>
             </div>
@@ -88,12 +91,12 @@
                 <div class="row text-center">
                     <div class="col-6 mb-3">
                         <div class="border-end">
-                            <h3 class="text-primary mb-1">0</h3>
+                            <h3 class="text-primary mb-1">{{ $pokemonCount }}</h3>
                             <small class="text-muted">登録ポケモン</small>
                         </div>
                     </div>
                     <div class="col-6 mb-3">
-                        <h3 class="text-success mb-1">0</h3>
+                        <h3 class="text-success mb-1">{{ $partyCount }}</h3>
                         <small class="text-muted">作成パーティ</small>
                     </div>
                 </div>
@@ -119,11 +122,11 @@
                 </h5>
             </div>
             <div class="card-body">
-                <div class="alert alert-info mb-0">
-                    <i class="fas fa-info-circle me-2"></i>
-                    <strong>システム稼働中</strong><br>
-                    ポケモン対戦サポートシステムが正常に稼働しています。
-                    今後、ポケモン登録、パーティ管理、ダメージ計算機能を順次追加予定です。
+                <div class="alert alert-success mb-0">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <strong>ポケモン登録機能が利用可能です！</strong><br>
+                    ポケモンの詳細な情報（努力値、性格、特性、技など）を登録・管理できます。
+                    パーティ管理とダメージ計算機能は今後追加予定です。
                 </div>
             </div>
         </div>

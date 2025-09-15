@@ -10,6 +10,9 @@
             <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
                 <i class="fas fa-home me-2"></i>ホーム
             </a>
+            <a href="{{ route('pokemon.index') }}" class="nav-link {{ request()->routeIs('pokemon.*') ? 'active' : '' }}">
+                <i class="fas fa-paw me-2"></i>ポケモン管理
+            </a>
             <a href="{{ route('bulk-data') }}" class="nav-link {{ request()->routeIs('bulk-data') ? 'active' : '' }}">
                 <i class="fas fa-database me-2"></i>データ一括保存
             </a>
