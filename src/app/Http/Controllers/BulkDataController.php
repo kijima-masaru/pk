@@ -15,7 +15,8 @@ class BulkDataController extends Controller
     public function index()
     {
         $tables = $this->getAvailableTables();
-        return view('bulk_data', compact('tables'));
+        $existingJsonFiles = $this->getExistingJsonFiles();
+        return view('bulk_data', compact('tables', 'existingJsonFiles'));
     }
 
     /**
@@ -25,7 +26,8 @@ class BulkDataController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'table' => 'required|string|in:' . implode(',', $this->getAvailableTables()),
-            'json_file' => 'required|file|mimes:json|max:10240', // 10MB max
+            'json_file' => 'nullable|file|mimes:json|max:10240', // 10MB max
+            'existing_file' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -36,11 +38,31 @@ class BulkDataController extends Controller
 
         try {
             $table = $request->input('table');
-            $file = $request->file('json_file');
-            
-            // JSONファイルの内容を読み込み
-            $jsonContent = file_get_contents($file->getPathname());
-            $data = json_decode($jsonContent, true);
+            $data = null;
+
+            // アップロードされたファイルがある場合
+            if ($request->hasFile('json_file')) {
+                $file = $request->file('json_file');
+                $jsonContent = file_get_contents($file->getPathname());
+                $data = json_decode($jsonContent, true);
+            }
+            // 既存ファイルが選択された場合
+            elseif ($request->input('existing_file')) {
+                $existingFile = $request->input('existing_file');
+                $filePath = public_path('json/basic_deta/' . $existingFile);
+                
+                if (!file_exists($filePath)) {
+                    return redirect()->back()
+                        ->with('error', '選択されたファイルが見つかりません');
+                }
+                
+                $jsonContent = file_get_contents($filePath);
+                $data = json_decode($jsonContent, true);
+            }
+            else {
+                return redirect()->back()
+                    ->with('error', 'JSONファイルまたは既存ファイルを選択してください');
+            }
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 return redirect()->back()
@@ -55,8 +77,9 @@ class BulkDataController extends Controller
             // データベースに保存
             $insertedCount = $this->insertDataToTable($table, $data);
 
+            $source = $request->hasFile('json_file') ? 'アップロードファイル' : '既存ファイル';
             return redirect()->back()
-                ->with('success', "{$table}テーブルに{$insertedCount}件のデータを保存しました");
+                ->with('success', "{$table}テーブルに{$insertedCount}件のデータを保存しました（{$source}から）");
 
         } catch (\Exception $e) {
             return redirect()->back()
@@ -109,5 +132,24 @@ class BulkDataController extends Controller
         }
 
         return $insertedCount;
+    }
+
+    /**
+     * 既存のJSONファイル一覧を取得
+     */
+    private function getExistingJsonFiles()
+    {
+        $jsonPath = public_path('json/basic_deta/');
+        $files = [];
+        
+        if (is_dir($jsonPath)) {
+            $jsonFiles = glob($jsonPath . '*.json');
+            foreach ($jsonFiles as $file) {
+                $fileName = basename($file);
+                $files[] = $fileName;
+            }
+        }
+        
+        return $files;
     }
 }

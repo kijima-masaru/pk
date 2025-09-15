@@ -61,23 +61,66 @@
                         </div>
 
                         <div class="col-md-6 mb-4">
-                            <label for="json_file" class="form-label">
+                            <label class="form-label">
                                 <i class="fas fa-file-code me-2"></i>JSONファイル
                             </label>
-                            <input type="file" 
-                                   class="form-control @error('json_file') is-invalid @enderror" 
-                                   id="json_file" 
-                                   name="json_file" 
-                                   accept=".json"
-                                   required>
-                            @error('json_file')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                            <div class="form-text">
-                                <small class="text-muted">
-                                    <i class="fas fa-info-circle me-1"></i>
-                                    JSONファイル（最大10MB）を選択してください
-                                </small>
+                            
+                            <!-- ファイル選択のタブ -->
+                            <ul class="nav nav-tabs mb-3" id="fileTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload" type="button" role="tab">
+                                        <i class="fas fa-upload me-1"></i>ファイルアップロード
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="existing-tab" data-bs-toggle="tab" data-bs-target="#existing" type="button" role="tab">
+                                        <i class="fas fa-folder me-1"></i>既存ファイル
+                                    </button>
+                                </li>
+                            </ul>
+                            
+                            <!-- タブコンテンツ -->
+                            <div class="tab-content" id="fileTabsContent">
+                                <!-- アップロードタブ -->
+                                <div class="tab-pane fade show active" id="upload" role="tabpanel">
+                                    <input type="file" 
+                                           class="form-control @error('json_file') is-invalid @enderror" 
+                                           id="json_file" 
+                                           name="json_file" 
+                                           accept=".json">
+                                    @error('json_file')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <div class="form-text">
+                                        <small class="text-muted">
+                                            <i class="fas fa-info-circle me-1"></i>
+                                            JSONファイル（最大10MB）を選択してください
+                                        </small>
+                                    </div>
+                                </div>
+                                
+                                <!-- 既存ファイルタブ -->
+                                <div class="tab-pane fade" id="existing" role="tabpanel">
+                                    <select class="form-select @error('existing_file') is-invalid @enderror" 
+                                            id="existing_file" 
+                                            name="existing_file">
+                                        <option value="">既存ファイルを選択してください</option>
+                                        @foreach($existingJsonFiles as $file)
+                                            <option value="{{ $file }}" {{ old('existing_file') == $file ? 'selected' : '' }}>
+                                                {{ $file }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('existing_file')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <div class="form-text">
+                                        <small class="text-muted">
+                                            <i class="fas fa-info-circle me-1"></i>
+                                            public/json/basic_deta/ フォルダ内のファイルから選択
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -353,6 +396,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const tableSelect = document.getElementById('table');
     const jsonExamples = document.getElementById('json-examples');
+    const uploadTab = document.getElementById('upload-tab');
+    const existingTab = document.getElementById('existing-tab');
+    const jsonFileInput = document.getElementById('json_file');
+    const existingFileSelect = document.getElementById('existing_file');
     
     // テーブル選択時のイベントリスナー
     tableSelect.addEventListener('change', function() {
@@ -376,6 +423,35 @@ document.addEventListener('DOMContentLoaded', function() {
             if (defaultExample) {
                 defaultExample.classList.remove('d-none');
             }
+        }
+    });
+    
+    // タブ切り替え時のイベントリスナー
+    uploadTab.addEventListener('click', function() {
+        existingFileSelect.required = false;
+        jsonFileInput.required = true;
+    });
+    
+    existingTab.addEventListener('click', function() {
+        jsonFileInput.required = false;
+        existingFileSelect.required = true;
+    });
+    
+    // フォーム送信時のバリデーション
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        const activeTab = document.querySelector('#fileTabsContent .tab-pane.active');
+        
+        if (activeTab.id === 'upload' && !jsonFileInput.files.length) {
+            e.preventDefault();
+            alert('JSONファイルを選択してください');
+            return false;
+        }
+        
+        if (activeTab.id === 'existing' && !existingFileSelect.value) {
+            e.preventDefault();
+            alert('既存ファイルを選択してください');
+            return false;
         }
     });
     
