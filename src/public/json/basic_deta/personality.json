@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "name": "がんばりや",
+    "rise": "attack",
+    "descent": "attack"
+  },
+  {
+    "id": 2,
+    "name": "さみしがり",
+    "rise": "attack",
+    "descent": "defense"
+  },
+  {
+    "id": 3,
+    "name": "ゆうかん",
+    "rise": "attack",
+    "descent": "sp_attack"
+  },
+  {
+    "id": 4,
+    "name": "いじっぱり",
+    "rise": "attack",
+    "descent": "sp_defense"
+  },
+  {
+    "id": 5,
+    "name": "やんちゃ",
+    "rise": "attack",
+    "descent": "speed"
+  },
+  {
+    "id": 6,
+    "name": "ずぶとい",
+    "rise": "defense",
+    "descent": "attack"
+  },
+  {
+    "id": 7,
+    "name": "わんぱく",
+    "rise": "defense",
+    "descent": "sp_attack"
+  },
+  {
+    "id": 8,
+    "name": "のうてんき",
+    "rise": "defense",
+    "descent": "sp_defense"
+  },
+  {
+    "id": 9,
+    "name": "のんき",
+    "rise": "defense",
+    "descent": "speed"
+  },
+  {
+    "id": 10,
+    "name": "ひかえめ",
+    "rise": "sp_attack",
+    "descent": "attack"
+  },
+  {
+    "id": 11,
+    "name": "おっとり",
+    "rise": "sp_attack",
+    "descent": "defense"
+  },
+  {
+    "id": 12,
+    "name": "うっかりや",
+    "rise": "sp_attack",
+    "descent": "sp_defense"
+  },
+  {
+    "id": 13,
+    "name": "れいせい",
+    "rise": "sp_attack",
+    "descent": "speed"
+  },
+  {
+    "id": 14,
+    "name": "おだやか",
+    "rise": "sp_defense",
+    "descent": "attack"
+  },
+  {
+    "id": 15,
+    "name": "おとなしい",
+    "rise": "sp_defense",
+    "descent": "defense"
+  },
+  {
+    "id": 16,
+    "name": "しんちょう",
+    "rise": "sp_defense",
+    "descent": "sp_attack"
+  },
+  {
+    "id": 17,
+    "name": "なまいき",
+    "rise": "sp_defense",
+    "descent": "speed"
+  },
+  {
+    "id": 18,
+    "name": "おくびょう",
+    "rise": "speed",
+    "descent": "attack"
+  },
+  {
+    "id": 19,
+    "name": "せっかち",
+    "rise": "speed",
+    "descent": "defense"
+  },
+  {
+    "id": 20,
+    "name": "ようき",
+    "rise": "speed",
+    "descent": "sp_attack"
+  },
+  {
+    "id": 21,
+    "name": "むじゃき",
+    "rise": "speed",
+    "descent": "sp_defense"
+  },
+  {
+    "id": 22,
+    "name": "てれや",
+    "rise": "attack",
+    "descent": "attack"
+  },
+  {
+    "id": 23,
+    "name": "がんばりや",
+    "rise": "defense",
+    "descent": "defense"
+  },
+  {
+    "id": 24,
+    "name": "がんばりや",
+    "rise": "sp_attack",
+    "descent": "sp_attack"
+  },
+  {
+    "id": 25,
+    "name": "がんばりや",
+    "rise": "sp_defense",
+    "descent": "sp_defense"
+  }
+]

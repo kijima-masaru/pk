@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FieldEffect extends Model
+class StatusCondition extends Model
 {
     use HasFactory;
 
-    protected $table = 'field_effects';
+    protected $table = 'status_conditions';
 
     protected $fillable = [
         'id',
