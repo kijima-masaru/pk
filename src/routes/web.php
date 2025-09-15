@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BulkDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,10 @@ Route::get('/dashboard', function () {
 Route::get('/home', function () {
     return view('home');
 })->middleware('auth')->name('home');
+
+// データ一括保存（認証が必要）
+Route::get('/bulk-data', [BulkDataController::class, 'index'])->middleware('auth')->name('bulk-data');
+Route::post('/bulk-data', [BulkDataController::class, 'store'])->middleware('auth')->name('bulk-data.store');
 
 // トップページ（未認証時はログイン画面へリダイレクト）
 Route::get('/', function () {
