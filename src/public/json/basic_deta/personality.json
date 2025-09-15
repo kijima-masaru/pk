@@ -2,151 +2,151 @@
   {
     "id": 1,
     "name": "がんばりや",
-    "rise": "attack",
-    "descent": "attack"
+    "rise": "A",
+    "descent": "A"
   },
   {
     "id": 2,
     "name": "さみしがり",
-    "rise": "attack",
-    "descent": "defense"
+    "rise": "A",
+    "descent": "B"
   },
   {
     "id": 3,
     "name": "ゆうかん",
-    "rise": "attack",
-    "descent": "sp_attack"
+    "rise": "A",
+    "descent": "C"
   },
   {
     "id": 4,
     "name": "いじっぱり",
-    "rise": "attack",
-    "descent": "sp_defense"
+    "rise": "A",
+    "descent": "D"
   },
   {
     "id": 5,
     "name": "やんちゃ",
-    "rise": "attack",
-    "descent": "speed"
+    "rise": "A",
+    "descent": "S"
   },
   {
     "id": 6,
     "name": "ずぶとい",
-    "rise": "defense",
-    "descent": "attack"
+    "rise": "B",
+    "descent": "A"
   },
   {
     "id": 7,
     "name": "わんぱく",
-    "rise": "defense",
-    "descent": "sp_attack"
+    "rise": "B",
+    "descent": "C"
   },
   {
     "id": 8,
     "name": "のうてんき",
-    "rise": "defense",
-    "descent": "sp_defense"
+    "rise": "B",
+    "descent": "D"
   },
   {
     "id": 9,
     "name": "のんき",
-    "rise": "defense",
-    "descent": "speed"
+    "rise": "B",
+    "descent": "S"
   },
   {
     "id": 10,
     "name": "ひかえめ",
-    "rise": "sp_attack",
-    "descent": "attack"
+    "rise": "C",
+    "descent": "A"
   },
   {
     "id": 11,
     "name": "おっとり",
-    "rise": "sp_attack",
-    "descent": "defense"
+    "rise": "C",
+    "descent": "B"
   },
   {
     "id": 12,
     "name": "うっかりや",
-    "rise": "sp_attack",
-    "descent": "sp_defense"
+    "rise": "C",
+    "descent": "D"
   },
   {
     "id": 13,
     "name": "れいせい",
-    "rise": "sp_attack",
-    "descent": "speed"
+    "rise": "C",
+    "descent": "S"
   },
   {
     "id": 14,
     "name": "おだやか",
-    "rise": "sp_defense",
-    "descent": "attack"
+    "rise": "D",
+    "descent": "A"
   },
   {
     "id": 15,
     "name": "おとなしい",
-    "rise": "sp_defense",
-    "descent": "defense"
+    "rise": "D",
+    "descent": "B"
   },
   {
     "id": 16,
     "name": "しんちょう",
-    "rise": "sp_defense",
-    "descent": "sp_attack"
+    "rise": "D",
+    "descent": "C"
   },
   {
     "id": 17,
     "name": "なまいき",
-    "rise": "sp_defense",
-    "descent": "speed"
+    "rise": "D",
+    "descent": "S"
   },
   {
     "id": 18,
     "name": "おくびょう",
-    "rise": "speed",
-    "descent": "attack"
+    "rise": "S",
+    "descent": "A"
   },
   {
     "id": 19,
     "name": "せっかち",
-    "rise": "speed",
-    "descent": "defense"
+    "rise": "S",
+    "descent": "B"
   },
   {
     "id": 20,
     "name": "ようき",
-    "rise": "speed",
-    "descent": "sp_attack"
+    "rise": "S",
+    "descent": "C"
   },
   {
     "id": 21,
     "name": "むじゃき",
-    "rise": "speed",
-    "descent": "sp_defense"
+    "rise": "S",
+    "descent": "D"
   },
   {
     "id": 22,
     "name": "てれや",
-    "rise": "attack",
-    "descent": "attack"
+    "rise": "A",
+    "descent": "A"
   },
   {
     "id": 23,
     "name": "がんばりや",
-    "rise": "defense",
-    "descent": "defense"
+    "rise": "B",
+    "descent": "B"
   },
   {
     "id": 24,
     "name": "がんばりや",
-    "rise": "sp_attack",
-    "descent": "sp_attack"
+    "rise": "C",
+    "descent": "C"
   },
   {
     "id": 25,
     "name": "がんばりや",
-    "rise": "sp_defense",
-    "descent": "sp_defense"
+    "rise": "D",
+    "descent": "D"
   }
 ]

@@ -116,12 +116,15 @@ class BulkDataController extends Controller
         DB::beginTransaction();
         try {
             foreach ($data as $record) {
+                // テーブルごとに必要なフィールドのみを抽出
+                $filteredRecord = $this->filterFieldsForTable($table, $record);
+                
                 // created_at, updated_atを追加
-                $record['created_at'] = now();
-                $record['updated_at'] = now();
+                $filteredRecord['created_at'] = now();
+                $filteredRecord['updated_at'] = now();
 
                 // テーブルに挿入
-                DB::table($table)->insert($record);
+                DB::table($table)->insert($filteredRecord);
                 $insertedCount++;
             }
 
@@ -135,6 +138,51 @@ class BulkDataController extends Controller
     }
 
     /**
+     * テーブルごとに必要なフィールドのみを抽出
+     */
+    private function filterFieldsForTable($table, $record)
+    {
+        $allowedFields = $this->getAllowedFieldsForTable($table);
+        
+        return array_intersect_key($record, array_flip($allowedFields));
+    }
+
+    /**
+     * テーブルごとに許可されたフィールドを取得
+     */
+    private function getAllowedFieldsForTable($table)
+    {
+        $fieldMap = [
+            'types' => ['id', 'name'],
+            'characteristics' => ['id', 'name'],
+            'personalities' => ['id', 'name', 'rise', 'descent'],
+            'goods' => ['id', 'name'],
+            'field_effects' => ['id', 'name'],
+            'status_conditions' => ['id', 'name'],
+            'pokemons' => [
+                'id', 'name', 'type1_id', 'type2_id', 
+                'characteristics1_id', 'characteristics2_id', 'characteristics3_id', 'characteristics4_id',
+                'H', 'A', 'B', 'C', 'D', 'S'
+            ],
+            'pokemon_forms' => [
+                'id', 'name', 'type1_id', 'type2_id', 
+                'characteristics1_id', 'characteristics2_id', 'characteristics3_id', 'characteristics4_id',
+                'H', 'A', 'B', 'C', 'D', 'S', 'pokemon_id'
+            ],
+            'pokemon_megas' => [
+                'id', 'name', 'type1_id', 'type2_id', 
+                'characteristics1_id', 'characteristics2_id', 'characteristics3_id', 'characteristics4_id',
+                'H', 'A', 'B', 'C', 'D', 'S', 'pokemon_id'
+            ],
+            'moves' => [
+                'id', 'name', 'type_id', 'category', 'power', 'accuracy', 'PP', 'target'
+            ],
+        ];
+
+        return $fieldMap[$table] ?? [];
+    }
+
+    /**
      * 既存のJSONファイル一覧を取得
      */
     private function getExistingJsonFiles()
@@ -143,10 +191,24 @@ class BulkDataController extends Controller
         $files = [];
         
         if (is_dir($jsonPath)) {
-            $jsonFiles = glob($jsonPath . '*.json');
-            foreach ($jsonFiles as $file) {
+            // ルートディレクトリのJSONファイル
+            $rootFiles = glob($jsonPath . '*.json');
+            foreach ($rootFiles as $file) {
                 $fileName = basename($file);
                 $files[] = $fileName;
+            }
+            
+            // サブフォルダのJSONファイル
+            $subfolders = ['goods', 'moves', 'pokemons', 'rules'];
+            foreach ($subfolders as $subfolder) {
+                $subfolderPath = $jsonPath . $subfolder . '/';
+                if (is_dir($subfolderPath)) {
+                    $subfolderFiles = glob($subfolderPath . '*.json');
+                    foreach ($subfolderFiles as $file) {
+                        $fileName = $subfolder . '/' . basename($file);
+                        $files[] = $fileName;
+                    }
+                }
             }
         }
         
