@@ -41,4 +41,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // リレーション
+    public function myPokemons()
+    {
+        return $this->hasMany(MyPokemon::class);
+    }
+
+    public function myParties()
+    {
+        return $this->hasMany(MyParty::class);
+    }
 }

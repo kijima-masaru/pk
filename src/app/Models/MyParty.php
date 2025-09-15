@@ -14,6 +14,7 @@ class MyParty extends Model
     protected $fillable = [
         'id',
         'name',
+        'user_id',
         'pokemon1_id',
         'pokemon2_id',
         'pokemon3_id',
@@ -24,6 +25,7 @@ class MyParty extends Model
 
     protected $casts = [
         'id' => 'integer',
+        'user_id' => 'integer',
         'pokemon1_id' => 'integer',
         'pokemon2_id' => 'integer',
         'pokemon3_id' => 'integer',
@@ -33,6 +35,11 @@ class MyParty extends Model
     ];
 
     // リレーション
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function pokemon1()
     {
         return $this->belongsTo(MyPokemon::class, 'pokemon1_id');

@@ -14,6 +14,7 @@ class MyPokemon extends Model
     protected $fillable = [
         'id',
         'name',
+        'user_id',
         'pokemon_id',
         'pokemon_form_id',
         'level',
@@ -44,6 +45,7 @@ class MyPokemon extends Model
 
     protected $casts = [
         'id' => 'integer',
+        'user_id' => 'integer',
         'pokemon_id' => 'integer',
         'pokemon_form_id' => 'integer',
         'level' => 'integer',
@@ -73,6 +75,11 @@ class MyPokemon extends Model
     ];
 
     // リレーション
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function pokemon()
     {
         return $this->belongsTo(Pokemon::class);
