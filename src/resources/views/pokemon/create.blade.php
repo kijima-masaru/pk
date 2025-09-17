@@ -129,26 +129,44 @@
                         <div class="col-md-2">
                             <label for="H_effort_values" class="form-label">HP</label>
                             <input type="number" class="form-control effort-value" id="H_effort_values" name="H_effort_values" value="{{ old('H_effort_values', 0) }}" min="0" max="252" required>
+                            <div class="invalid-feedback">
+                                各項目の最大値は252です。
+                            </div>
                         </div>
                         <div class="col-md-2">
                             <label for="A_effort_values" class="form-label">攻撃</label>
                             <input type="number" class="form-control effort-value" id="A_effort_values" name="A_effort_values" value="{{ old('A_effort_values', 0) }}" min="0" max="252" required>
+                            <div class="invalid-feedback">
+                                各項目の最大値は252です。
+                            </div>
                         </div>
                         <div class="col-md-2">
                             <label for="B_effort_values" class="form-label">防御</label>
                             <input type="number" class="form-control effort-value" id="B_effort_values" name="B_effort_values" value="{{ old('B_effort_values', 0) }}" min="0" max="252" required>
+                            <div class="invalid-feedback">
+                                各項目の最大値は252です。
+                            </div>
                         </div>
                         <div class="col-md-2">
                             <label for="C_effort_values" class="form-label">特攻</label>
                             <input type="number" class="form-control effort-value" id="C_effort_values" name="C_effort_values" value="{{ old('C_effort_values', 0) }}" min="0" max="252" required>
+                            <div class="invalid-feedback">
+                                各項目の最大値は252です。
+                            </div>
                         </div>
                         <div class="col-md-2">
                             <label for="D_effort_values" class="form-label">特防</label>
                             <input type="number" class="form-control effort-value" id="D_effort_values" name="D_effort_values" value="{{ old('D_effort_values', 0) }}" min="0" max="252" required>
+                            <div class="invalid-feedback">
+                                各項目の最大値は252です。
+                            </div>
                         </div>
                         <div class="col-md-2">
                             <label for="S_effort_values" class="form-label">素早さ</label>
                             <input type="number" class="form-control effort-value" id="S_effort_values" name="S_effort_values" value="{{ old('S_effort_values', 0) }}" min="0" max="252" required>
+                            <div class="invalid-feedback">
+                                各項目の最大値は252です。
+                            </div>
                         </div>
                     </div>
                     <div class="mt-3">
@@ -236,14 +254,26 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateEffortValuesTotal() {
         const effortInputs = document.querySelectorAll('.effort-value');
         let total = 0;
+        let hasInvalidValue = false;
+        
         effortInputs.forEach(input => {
-            total += parseInt(input.value) || 0;
+            const value = parseInt(input.value) || 0;
+            total += value;
+            
+            // 各項目の最大値252チェック
+            if (value > 252) {
+                input.classList.add('is-invalid');
+                hasInvalidValue = true;
+            } else {
+                input.classList.remove('is-invalid');
+            }
         });
+        
         document.getElementById('totalEffortValues').textContent = total;
         
-        // 510を超えた場合は警告色に変更
+        // 510を超えた場合または各項目が252を超えた場合は警告色に変更
         const totalElement = document.getElementById('totalEffortValues');
-        if (total > 510) {
+        if (total > 510 || hasInvalidValue) {
             totalElement.parentElement.className = 'alert alert-danger';
         } else {
             totalElement.parentElement.className = 'alert alert-info';
@@ -257,6 +287,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初期計算
     updateEffortValuesTotal();
+    
+    // フォーム送信時のバリデーション
+    document.getElementById('pokemonForm').addEventListener('submit', function(e) {
+        const effortInputs = document.querySelectorAll('.effort-value');
+        let hasInvalidValue = false;
+        
+        effortInputs.forEach(input => {
+            const value = parseInt(input.value) || 0;
+            if (value > 252) {
+                input.classList.add('is-invalid');
+                hasInvalidValue = true;
+            }
+        });
+        
+        if (hasInvalidValue) {
+            e.preventDefault();
+            alert('努力値の各項目は252以下である必要があります。');
+        }
+    });
     
     // ポケモン選択時のフォーム取得
     document.getElementById('pokemon_id').addEventListener('change', function() {
