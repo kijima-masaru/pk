@@ -44,15 +44,10 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label for="pokemon_id" class="form-label">ポケモン <span class="text-danger">*</span></label>
-                        <select class="form-select" id="pokemon_id" name="pokemon_id" required>
-                            <option value="">ポケモンを選択してください</option>
-                            @foreach($pokemons as $pokemon)
-                                <option value="{{ $pokemon->id }}" {{ old('pokemon_id') == $pokemon->id ? 'selected' : '' }}>
-                                    {{ $pokemon->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <label for="pokemon_search" class="form-label">ポケモン <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="pokemon_search" placeholder="ポケモン名を入力してください" value="{{ $selectedPokemonName ?? '' }}" autocomplete="off">
+                        <input type="hidden" id="pokemon_id" name="pokemon_id" value="{{ old('pokemon_id') }}" required>
+                        <div id="pokemon_suggestions" class="list-group position-absolute" style="display: none; z-index: 1000; max-height: 200px; overflow-y: auto; width: 100%;"></div>
                     </div>
                     
                     <div class="mb-3">
@@ -307,9 +302,70 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // ポケモン検索機能
+    const pokemonSearchInput = document.getElementById('pokemon_search');
+    const pokemonIdInput = document.getElementById('pokemon_id');
+    const pokemonSuggestions = document.getElementById('pokemon_suggestions');
+    let searchTimeout;
+
+    pokemonSearchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        
+        clearTimeout(searchTimeout);
+        
+        if (query.length < 1) {
+            pokemonSuggestions.style.display = 'none';
+            pokemonIdInput.value = '';
+            return;
+        }
+        
+        searchTimeout = setTimeout(() => {
+            fetch(`/pokemon/search?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(pokemons => {
+                    displayPokemonSuggestions(pokemons);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }, 300);
+    });
+
+    function displayPokemonSuggestions(pokemons) {
+        pokemonSuggestions.innerHTML = '';
+        
+        if (pokemons.length === 0) {
+            pokemonSuggestions.style.display = 'none';
+            return;
+        }
+        
+        pokemons.forEach(pokemon => {
+            const item = document.createElement('div');
+            item.className = 'list-group-item list-group-item-action';
+            item.textContent = pokemon.name;
+            item.addEventListener('click', function() {
+                pokemonSearchInput.value = pokemon.name;
+                pokemonIdInput.value = pokemon.id;
+                pokemonSuggestions.style.display = 'none';
+                
+                // フォーム取得
+                loadPokemonForms(pokemon.id);
+            });
+            pokemonSuggestions.appendChild(item);
+        });
+        
+        pokemonSuggestions.style.display = 'block';
+    }
+
+    // クリック外部でサジェストを非表示
+    document.addEventListener('click', function(e) {
+        if (!pokemonSearchInput.contains(e.target) && !pokemonSuggestions.contains(e.target)) {
+            pokemonSuggestions.style.display = 'none';
+        }
+    });
+
     // ポケモン選択時のフォーム取得
-    document.getElementById('pokemon_id').addEventListener('change', function() {
-        const pokemonId = this.value;
+    function loadPokemonForms(pokemonId) {
         const formSelect = document.getElementById('pokemon_form_id');
         
         if (pokemonId) {
@@ -330,7 +386,13 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             formSelect.innerHTML = '<option value="">フォームを選択してください</option>';
         }
-    });
+    }
+
+    // 初期値がある場合の処理
+    const initialPokemonId = pokemonIdInput.value;
+    if (initialPokemonId) {
+        loadPokemonForms(initialPokemonId);
+    }
 });
 </script>
 @endsection

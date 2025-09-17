@@ -20,18 +20,26 @@ class MyPokemonController extends Controller
      */
     public function create()
     {
-        $pokemons = Pokemon::orderBy('id')->get();
         $personalities = Personality::orderBy('id')->get();
         $characteristics = Characteristic::orderBy('id')->get();
         $goods = Goods::orderBy('id')->get();
         $moves = Move::orderBy('id')->get();
 
+        // 初期値のポケモン名を取得
+        $selectedPokemonName = '';
+        if (old('pokemon_id')) {
+            $selectedPokemon = Pokemon::find(old('pokemon_id'));
+            if ($selectedPokemon) {
+                $selectedPokemonName = $selectedPokemon->name;
+            }
+        }
+
         return view('pokemon.create', compact(
-            'pokemons',
             'personalities',
             'characteristics',
             'goods',
-            'moves'
+            'moves',
+            'selectedPokemonName'
         ));
     }
 
@@ -153,5 +161,24 @@ class MyPokemonController extends Controller
         $forms = PokemonForm::where('pokemon_id', $pokemonId)->get();
         
         return response()->json($forms);
+    }
+
+    /**
+     * ポケモン検索（AJAX用）
+     */
+    public function searchPokemons(Request $request)
+    {
+        $query = $request->get('q', '');
+        
+        if (strlen($query) < 1) {
+            return response()->json([]);
+        }
+        
+        $pokemons = Pokemon::where('name', 'LIKE', "%{$query}%")
+            ->orderBy('name')
+            ->limit(10)
+            ->get(['id', 'name']);
+        
+        return response()->json($pokemons);
     }
 }

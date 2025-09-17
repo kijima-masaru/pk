@@ -48,6 +48,7 @@ Route::get('/pokemon', [MyPokemonController::class, 'index'])->middleware('auth'
 Route::get('/pokemon/create', [MyPokemonController::class, 'create'])->middleware('auth')->name('pokemon.create');
 Route::post('/pokemon', [MyPokemonController::class, 'store'])->middleware('auth')->name('pokemon.store');
 Route::get('/pokemon/forms', [MyPokemonController::class, 'getPokemonForms'])->middleware('auth')->name('pokemon.forms');
+Route::get('/pokemon/search', [MyPokemonController::class, 'searchPokemons'])->middleware('auth')->name('pokemon.search');
 
 // トップページ（未認証時はログイン画面へリダイレクト）
 Route::get('/', function () {
