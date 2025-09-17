@@ -30,6 +30,12 @@ class Move extends Model
         'PP' => 'integer'
     ];
 
+    protected $nullable = [
+        'power',
+        'accuracy',
+        'PP'
+    ];
+
     // リレーション
     public function type()
     {

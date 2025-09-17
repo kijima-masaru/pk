@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('type_id')->constrained('types');
             $table->string('category');
-            $table->integer('power');
-            $table->integer('accuracy');
-            $table->integer('PP');
+            $table->integer('power')->nullable();
+            $table->integer('accuracy')->nullable();
+            $table->integer('PP')->nullable();
             $table->string('target');
             $table->timestamps();
         });
