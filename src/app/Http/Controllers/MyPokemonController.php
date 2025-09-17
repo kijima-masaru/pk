@@ -181,4 +181,41 @@ class MyPokemonController extends Controller
         
         return response()->json($pokemons);
     }
+
+    /**
+     * ポケモンが覚えられる技を取得（AJAX用）
+     */
+    public function getPokemonMoves(Request $request)
+    {
+        $pokemonId = $request->pokemon_id;
+        
+        if (!$pokemonId) {
+            return response()->json([]);
+        }
+        
+        // ok_moveフォルダ内のCSVファイルを読み込み
+        $csvPath = public_path("json/basic_deta/pokemons/ok_move/{$pokemonId}.csv");
+        
+        if (!file_exists($csvPath)) {
+            return response()->json([]);
+        }
+        
+        $csvContent = file_get_contents($csvPath);
+        $lines = explode("\n", trim($csvContent));
+        
+        $moveIds = [];
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (!empty($line)) {
+                $moveIds[] = (int)$line;
+            }
+        }
+        
+        // 技の詳細情報を取得
+        $moves = Move::whereIn('id', $moveIds)
+            ->orderBy('id')
+            ->get(['id', 'name']);
+        
+        return response()->json($moves);
+    }
 }

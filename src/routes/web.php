@@ -50,6 +50,7 @@ Route::get('/pokemon/create', [MyPokemonController::class, 'create'])->middlewar
 Route::post('/pokemon', [MyPokemonController::class, 'store'])->middleware('auth')->name('pokemon.store');
 Route::get('/pokemon/forms', [MyPokemonController::class, 'getPokemonForms'])->middleware('auth')->name('pokemon.forms');
 Route::get('/pokemon/search', [MyPokemonController::class, 'searchPokemons'])->middleware('auth')->name('pokemon.search');
+Route::get('/pokemon/moves', [MyPokemonController::class, 'getPokemonMoves'])->middleware('auth')->name('pokemon.moves');
 
 // CSV置換ツール（認証が必要）
 Route::get('/csv-replace', [CsvReplaceController::class, 'index'])->middleware('auth')->name('csv-replace.index');

@@ -185,46 +185,26 @@
                     <div class="row">
                         <div class="col-md-3">
                             <label for="move1_id" class="form-label">技1</label>
-                            <select class="form-select" id="move1_id" name="move1_id">
-                                <option value="">技を選択してください</option>
-                                @foreach($moves as $move)
-                                    <option value="{{ $move->id }}" {{ old('move1_id') == $move->id ? 'selected' : '' }}>
-                                        {{ $move->name }}
-                                    </option>
-                                @endforeach
+                            <select class="form-select" id="move1_id" name="move1_id" disabled>
+                                <option value="">ポケモンを選択してください</option>
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label for="move2_id" class="form-label">技2</label>
-                            <select class="form-select" id="move2_id" name="move2_id">
-                                <option value="">技を選択してください</option>
-                                @foreach($moves as $move)
-                                    <option value="{{ $move->id }}" {{ old('move2_id') == $move->id ? 'selected' : '' }}>
-                                        {{ $move->name }}
-                                    </option>
-                                @endforeach
+                            <select class="form-select" id="move2_id" name="move2_id" disabled>
+                                <option value="">ポケモンを選択してください</option>
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label for="move3_id" class="form-label">技3</label>
-                            <select class="form-select" id="move3_id" name="move3_id">
-                                <option value="">技を選択してください</option>
-                                @foreach($moves as $move)
-                                    <option value="{{ $move->id }}" {{ old('move3_id') == $move->id ? 'selected' : '' }}>
-                                        {{ $move->name }}
-                                    </option>
-                                @endforeach
+                            <select class="form-select" id="move3_id" name="move3_id" disabled>
+                                <option value="">ポケモンを選択してください</option>
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label for="move4_id" class="form-label">技4</label>
-                            <select class="form-select" id="move4_id" name="move4_id">
-                                <option value="">技を選択してください</option>
-                                @foreach($moves as $move)
-                                    <option value="{{ $move->id }}" {{ old('move4_id') == $move->id ? 'selected' : '' }}>
-                                        {{ $move->name }}
-                                    </option>
-                                @endforeach
+                            <select class="form-select" id="move4_id" name="move4_id" disabled>
+                                <option value="">ポケモンを選択してください</option>
                             </select>
                         </div>
                     </div>
@@ -316,6 +296,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (query.length < 1) {
             pokemonSuggestions.style.display = 'none';
             pokemonIdInput.value = '';
+            // 技の選択肢を無効化
+            loadPokemonMoves(null);
             return;
         }
         
@@ -350,6 +332,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // フォーム取得
                 loadPokemonForms(pokemon.id);
+                
+                // 技の選択肢を更新
+                loadPokemonMoves(pokemon.id);
             });
             pokemonSuggestions.appendChild(item);
         });
@@ -388,10 +373,53 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // ポケモンが覚えられる技を取得
+    function loadPokemonMoves(pokemonId) {
+        const moveSelects = ['move1_id', 'move2_id', 'move3_id', 'move4_id'];
+        
+        if (pokemonId) {
+            fetch(`/pokemon/moves?pokemon_id=${pokemonId}`)
+                .then(response => response.json())
+                .then(moves => {
+                    moveSelects.forEach(selectId => {
+                        const select = document.getElementById(selectId);
+                        select.innerHTML = '<option value="">技を選択してください</option>';
+                        
+                        moves.forEach(move => {
+                            const option = document.createElement('option');
+                            option.value = move.id;
+                            option.textContent = move.name;
+                            select.appendChild(option);
+                        });
+                        
+                        // 選択肢を有効化
+                        select.disabled = false;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // エラー時は選択肢を無効化
+                    moveSelects.forEach(selectId => {
+                        const select = document.getElementById(selectId);
+                        select.innerHTML = '<option value="">技の取得に失敗しました</option>';
+                        select.disabled = true;
+                    });
+                });
+        } else {
+            // ポケモンが選択されていない場合は選択肢を無効化
+            moveSelects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                select.innerHTML = '<option value="">ポケモンを選択してください</option>';
+                select.disabled = true;
+            });
+        }
+    }
+
     // 初期値がある場合の処理
     const initialPokemonId = pokemonIdInput.value;
     if (initialPokemonId) {
         loadPokemonForms(initialPokemonId);
+        loadPokemonMoves(initialPokemonId);
     }
 });
 </script>
