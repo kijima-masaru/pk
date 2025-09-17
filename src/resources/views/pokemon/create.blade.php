@@ -86,13 +86,8 @@
                     
                     <div class="mb-3">
                         <label for="characteristics_id" class="form-label">特性 <span class="text-danger">*</span></label>
-                        <select class="form-select" id="characteristics_id" name="characteristics_id" required>
-                            <option value="">特性を選択してください</option>
-                            @foreach($characteristics as $characteristic)
-                                <option value="{{ $characteristic->id }}" {{ old('characteristics_id') == $characteristic->id ? 'selected' : '' }}>
-                                    {{ $characteristic->name }}
-                                </option>
-                            @endforeach
+                        <select class="form-select" id="characteristics_id" name="characteristics_id" required disabled>
+                            <option value="">ポケモンを選択してください</option>
                         </select>
                     </div>
                     
@@ -296,6 +291,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (query.length < 1) {
             pokemonSuggestions.style.display = 'none';
             pokemonIdInput.value = '';
+            // 特性の選択肢を無効化
+            loadPokemonCharacteristics(null);
+            
             // 技の選択肢を無効化
             loadPokemonMoves(null);
             return;
@@ -332,6 +330,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // フォーム取得
                 loadPokemonForms(pokemon.id);
+                
+                // 特性の選択肢を更新
+                loadPokemonCharacteristics(pokemon.id);
                 
                 // 技の選択肢を更新
                 loadPokemonMoves(pokemon.id);
@@ -370,6 +371,38 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
         } else {
             formSelect.innerHTML = '<option value="">フォームを選択してください</option>';
+        }
+    }
+
+    // ポケモンの特性を取得
+    function loadPokemonCharacteristics(pokemonId) {
+        const characteristicSelect = document.getElementById('characteristics_id');
+        
+        if (pokemonId) {
+            fetch(`/pokemon/characteristics?pokemon_id=${pokemonId}`)
+                .then(response => response.json())
+                .then(characteristics => {
+                    characteristicSelect.innerHTML = '<option value="">特性を選択してください</option>';
+                    characteristics.forEach(characteristic => {
+                        const option = document.createElement('option');
+                        option.value = characteristic.id;
+                        option.textContent = characteristic.name;
+                        characteristicSelect.appendChild(option);
+                    });
+                    
+                    // 選択肢を有効化
+                    characteristicSelect.disabled = false;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // エラー時は選択肢を無効化
+                    characteristicSelect.innerHTML = '<option value="">特性の取得に失敗しました</option>';
+                    characteristicSelect.disabled = true;
+                });
+        } else {
+            // ポケモンが選択されていない場合は選択肢を無効化
+            characteristicSelect.innerHTML = '<option value="">ポケモンを選択してください</option>';
+            characteristicSelect.disabled = true;
         }
     }
 
@@ -415,10 +448,50 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // フォーム選択時のイベント
+    document.getElementById('pokemon_form_id').addEventListener('change', function() {
+        const pokemonId = pokemonIdInput.value;
+        const formId = this.value;
+        
+        if (pokemonId && formId) {
+            // フォームが選択された場合は、そのフォームの特性を取得
+            loadPokemonFormCharacteristics(pokemonId, formId);
+        } else if (pokemonId) {
+            // フォームが選択されていない場合は、基本ポケモンの特性を取得
+            loadPokemonCharacteristics(pokemonId);
+        }
+    });
+
+    // ポケモンフォームの特性を取得
+    function loadPokemonFormCharacteristics(pokemonId, formId) {
+        const characteristicSelect = document.getElementById('characteristics_id');
+        
+        fetch(`/pokemon/form-characteristics?pokemon_id=${pokemonId}&form_id=${formId}`)
+            .then(response => response.json())
+            .then(characteristics => {
+                characteristicSelect.innerHTML = '<option value="">特性を選択してください</option>';
+                characteristics.forEach(characteristic => {
+                    const option = document.createElement('option');
+                    option.value = characteristic.id;
+                    option.textContent = characteristic.name;
+                    characteristicSelect.appendChild(option);
+                });
+                
+                // 選択肢を有効化
+                characteristicSelect.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // エラー時は基本ポケモンの特性を取得
+                loadPokemonCharacteristics(pokemonId);
+            });
+    }
+
     // 初期値がある場合の処理
     const initialPokemonId = pokemonIdInput.value;
     if (initialPokemonId) {
         loadPokemonForms(initialPokemonId);
+        loadPokemonCharacteristics(initialPokemonId);
         loadPokemonMoves(initialPokemonId);
     }
 });

@@ -52,6 +52,8 @@ Route::delete('/pokemon/{id}', [MyPokemonController::class, 'destroy'])->middlew
 Route::get('/pokemon/forms', [MyPokemonController::class, 'getPokemonForms'])->middleware('auth')->name('pokemon.forms');
 Route::get('/pokemon/search', [MyPokemonController::class, 'searchPokemons'])->middleware('auth')->name('pokemon.search');
 Route::get('/pokemon/moves', [MyPokemonController::class, 'getPokemonMoves'])->middleware('auth')->name('pokemon.moves');
+Route::get('/pokemon/characteristics', [MyPokemonController::class, 'getPokemonCharacteristics'])->middleware('auth')->name('pokemon.characteristics');
+Route::get('/pokemon/form-characteristics', [MyPokemonController::class, 'getPokemonFormCharacteristics'])->middleware('auth')->name('pokemon.form-characteristics');
 
 // CSV置換ツール（認証が必要）
 Route::get('/csv-replace', [CsvReplaceController::class, 'index'])->middleware('auth')->name('csv-replace.index');

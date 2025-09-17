@@ -239,4 +239,77 @@ class MyPokemonController extends Controller
         
         return response()->json($moves);
     }
+
+    /**
+     * ポケモンの特性を取得（AJAX用）
+     */
+    public function getPokemonCharacteristics(Request $request)
+    {
+        $pokemonId = $request->pokemon_id;
+        
+        if (!$pokemonId) {
+            return response()->json([]);
+        }
+        
+        $pokemon = Pokemon::find($pokemonId);
+        if (!$pokemon) {
+            return response()->json([]);
+        }
+        
+        // ポケモンが持つ特性IDを取得
+        $characteristicIds = [];
+        if ($pokemon->characteristics1_id) $characteristicIds[] = $pokemon->characteristics1_id;
+        if ($pokemon->characteristics2_id) $characteristicIds[] = $pokemon->characteristics2_id;
+        if ($pokemon->characteristics3_id) $characteristicIds[] = $pokemon->characteristics3_id;
+        if ($pokemon->characteristics4_id) $characteristicIds[] = $pokemon->characteristics4_id;
+        
+        // 重複を除去
+        $characteristicIds = array_unique($characteristicIds);
+        
+        // 特性の詳細情報を取得
+        $characteristics = Characteristic::whereIn('id', $characteristicIds)
+            ->orderBy('id')
+            ->get(['id', 'name']);
+        
+        return response()->json($characteristics);
+    }
+
+    /**
+     * ポケモンフォームの特性を取得（AJAX用）
+     */
+    public function getPokemonFormCharacteristics(Request $request)
+    {
+        $pokemonId = $request->pokemon_id;
+        $formId = $request->form_id;
+        
+        if (!$pokemonId || !$formId) {
+            return response()->json([]);
+        }
+        
+        $pokemonForm = PokemonForm::where('pokemon_id', $pokemonId)
+            ->where('id', $formId)
+            ->first();
+        
+        if (!$pokemonForm) {
+            // フォームが見つからない場合は基本ポケモンの特性を返す
+            return $this->getPokemonCharacteristics($request);
+        }
+        
+        // フォームが持つ特性IDを取得
+        $characteristicIds = [];
+        if ($pokemonForm->characteristics1_id) $characteristicIds[] = $pokemonForm->characteristics1_id;
+        if ($pokemonForm->characteristics2_id) $characteristicIds[] = $pokemonForm->characteristics2_id;
+        if ($pokemonForm->characteristics3_id) $characteristicIds[] = $pokemonForm->characteristics3_id;
+        if ($pokemonForm->characteristics4_id) $characteristicIds[] = $pokemonForm->characteristics4_id;
+        
+        // 重複を除去
+        $characteristicIds = array_unique($characteristicIds);
+        
+        // 特性の詳細情報を取得
+        $characteristics = Characteristic::whereIn('id', $characteristicIds)
+            ->orderBy('id')
+            ->get(['id', 'name']);
+        
+        return response()->json($characteristics);
+    }
 }
