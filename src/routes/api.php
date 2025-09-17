@@ -17,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// AI最適化関連のルート
+Route::prefix('ai-optimization')->group(function () {
+    Route::post('/start', [App\Http\Controllers\AIOptimizationController::class, 'startOptimization']);
+    Route::post('/save-party', [App\Http\Controllers\AIOptimizationController::class, 'saveOptimizedParty']);
+    Route::post('/simulate-battle', [App\Http\Controllers\AIOptimizationController::class, 'simulateBattle']);
+    Route::post('/evaluate-party', [App\Http\Controllers\AIOptimizationController::class, 'evaluateParty']);
+    Route::get('/progress', [App\Http\Controllers\AIOptimizationController::class, 'getOptimizationProgress']);
+});

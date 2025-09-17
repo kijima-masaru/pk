@@ -63,6 +63,11 @@ Route::get('/csv-replace/download/{filename}', [CsvReplaceController::class, 'do
 Route::get('/csv-replace/batch', [CsvReplaceController::class, 'batch'])->middleware('auth')->name('csv-replace.batch');
 Route::post('/csv-replace/batch-process', [CsvReplaceController::class, 'batchProcess'])->middleware('auth')->name('csv-replace.batch-process');
 
+// AI最適化（認証が必要）
+Route::get('/ai-optimization', function () {
+    return view('ai-optimization');
+})->middleware('auth')->name('ai-optimization');
+
 // トップページ（未認証時はログイン画面へリダイレクト）
 Route::get('/', function () {
     if (auth()->check()) {

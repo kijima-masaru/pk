@@ -13,6 +13,9 @@
             <a href="{{ route('pokemon.index') }}" class="nav-link {{ request()->routeIs('pokemon.*') ? 'active' : '' }}">
                 <i class="fas fa-paw me-2"></i>ポケモン管理
             </a>
+            <a href="{{ route('ai-optimization') }}" class="nav-link {{ request()->routeIs('ai-optimization') ? 'active' : '' }}">
+                <i class="fas fa-robot me-2"></i>AI最適化
+            </a>
             <a href="{{ route('bulk-data') }}" class="nav-link {{ request()->routeIs('bulk-data') ? 'active' : '' }}">
                 <i class="fas fa-database me-2"></i>データ一括保存
             </a>
