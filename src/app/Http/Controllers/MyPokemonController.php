@@ -143,6 +143,27 @@ class MyPokemonController extends Controller
     }
 
     /**
+     * ポケモンを削除
+     */
+    public function destroy($id)
+    {
+        $myPokemon = MyPokemon::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        if (!$myPokemon) {
+            return redirect()->route('pokemon.index')
+                ->with('error', 'ポケモンが見つかりません。');
+        }
+
+        $pokemonName = $myPokemon->name;
+        $myPokemon->delete();
+
+        return redirect()->route('pokemon.index')
+            ->with('success', "「{$pokemonName}」を削除しました。");
+    }
+
+    /**
      * 実数値計算（簡易版）
      */
     private function calculateRealValue($baseStat, $effortValue, $level, $natureMultiplier)

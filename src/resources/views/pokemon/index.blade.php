@@ -23,6 +23,13 @@
     </div>
 @endif
 
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-triangle me-2"></i>{{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
 @if($myPokemons->count() > 0)
     <div class="row">
         @foreach($myPokemons as $myPokemon)
@@ -149,10 +156,10 @@
                                 登録日: {{ $myPokemon->created_at->format('Y/m/d H:i') }}
                             </small>
                             <div>
-                                <button class="btn btn-sm btn-outline-primary" onclick="editPokemon({{ $myPokemon->id }})">
+                                <button class="btn btn-sm btn-outline-primary" onclick="editPokemon({{ $myPokemon->id }})" title="編集">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn btn-sm btn-outline-danger" onclick="deletePokemon({{ $myPokemon->id }})">
+                                <button class="btn btn-sm btn-outline-danger" onclick="deletePokemon({{ $myPokemon->id }}, '{{ $myPokemon->name }}')" title="削除">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -181,10 +188,110 @@ function editPokemon(id) {
     alert('編集機能は今後実装予定です。');
 }
 
-function deletePokemon(id) {
-    if (confirm('このポケモンを削除しますか？')) {
-        // 削除機能は今後実装予定
-        alert('削除機能は今後実装予定です。');
+function deletePokemon(id, name) {
+    if (confirm(`「${name}」を削除しますか？\n\n削除したポケモンは復元できません。`)) {
+        // ローディング状態を開始
+        setLoadingState(true);
+        
+        // CSRFトークンを取得
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        
+        // 削除リクエストを送信
+        fetch(`/pokemon/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': token
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // 削除成功時はページをリロード
+                window.location.reload();
+            } else {
+                // エラー時はアラートを表示
+                alert('削除に失敗しました。もう一度お試しください。');
+                setLoadingState(false);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('削除中にエラーが発生しました。');
+            setLoadingState(false);
+        });
+    }
+}
+
+function setLoadingState(isLoading) {
+    // 全てのボタンを無効化/有効化
+    const buttons = document.querySelectorAll('button, a');
+    buttons.forEach(button => {
+        button.disabled = isLoading;
+        if (isLoading) {
+            button.style.pointerEvents = 'none';
+            button.style.opacity = '0.6';
+        } else {
+            button.style.pointerEvents = 'auto';
+            button.style.opacity = '1';
+        }
+    });
+    
+    // 削除ボタンにローディング表示を追加
+    const deleteButtons = document.querySelectorAll('button[onclick*="deletePokemon"]');
+    deleteButtons.forEach(button => {
+        if (isLoading) {
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            button.title = '削除中...';
+        } else {
+            button.innerHTML = '<i class="fas fa-trash"></i>';
+            button.title = '削除';
+        }
+    });
+    
+    // ページ全体にローディングオーバーレイを表示
+    if (isLoading) {
+        // ローディングオーバーレイを作成
+        let overlay = document.getElementById('loading-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'loading-overlay';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+                pointer-events: none;
+            `;
+            
+            const loadingContent = document.createElement('div');
+            loadingContent.style.cssText = `
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                text-align: center;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            `;
+            loadingContent.innerHTML = `
+                <i class="fas fa-spinner fa-spin fa-2x text-primary mb-2"></i>
+                <div>削除中...</div>
+            `;
+            
+            overlay.appendChild(loadingContent);
+            document.body.appendChild(overlay);
+        }
+        overlay.style.display = 'flex';
+    } else {
+        // ローディングオーバーレイを非表示
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+            overlay.style.display = 'none';
+        }
     }
 }
 </script>

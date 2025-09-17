@@ -48,6 +48,7 @@ Route::post('/bulk-data', [BulkDataController::class, 'store'])->middleware('aut
 Route::get('/pokemon', [MyPokemonController::class, 'index'])->middleware('auth')->name('pokemon.index');
 Route::get('/pokemon/create', [MyPokemonController::class, 'create'])->middleware('auth')->name('pokemon.create');
 Route::post('/pokemon', [MyPokemonController::class, 'store'])->middleware('auth')->name('pokemon.store');
+Route::delete('/pokemon/{id}', [MyPokemonController::class, 'destroy'])->middleware('auth')->name('pokemon.destroy');
 Route::get('/pokemon/forms', [MyPokemonController::class, 'getPokemonForms'])->middleware('auth')->name('pokemon.forms');
 Route::get('/pokemon/search', [MyPokemonController::class, 'searchPokemons'])->middleware('auth')->name('pokemon.search');
 Route::get('/pokemon/moves', [MyPokemonController::class, 'getPokemonMoves'])->middleware('auth')->name('pokemon.moves');
