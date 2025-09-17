@@ -16,6 +16,12 @@
             <a href="{{ route('bulk-data') }}" class="nav-link {{ request()->routeIs('bulk-data') ? 'active' : '' }}">
                 <i class="fas fa-database me-2"></i>データ一括保存
             </a>
+            <a href="{{ route('csv-replace.index') }}" class="nav-link {{ request()->routeIs('csv-replace.index') || request()->routeIs('csv-replace.process') || request()->routeIs('csv-replace.preview') || request()->routeIs('csv-replace.download') ? 'active' : '' }}">
+                <i class="fas fa-exchange-alt me-2"></i>CSV置換ツール
+            </a>
+            <a href="{{ route('csv-replace.batch') }}" class="nav-link {{ request()->routeIs('csv-replace.batch') || request()->routeIs('csv-replace.batch-process') ? 'active' : '' }}">
+                <i class="fas fa-layer-group me-2"></i>CSV一括置換
+            </a>
         </nav>
     </div>
 </div>

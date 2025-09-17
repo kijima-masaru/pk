@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BulkDataController;
 use App\Http\Controllers\MyPokemonController;
+use App\Http\Controllers\CsvReplaceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,16 @@ Route::get('/pokemon/create', [MyPokemonController::class, 'create'])->middlewar
 Route::post('/pokemon', [MyPokemonController::class, 'store'])->middleware('auth')->name('pokemon.store');
 Route::get('/pokemon/forms', [MyPokemonController::class, 'getPokemonForms'])->middleware('auth')->name('pokemon.forms');
 Route::get('/pokemon/search', [MyPokemonController::class, 'searchPokemons'])->middleware('auth')->name('pokemon.search');
+
+// CSV置換ツール（認証が必要）
+Route::get('/csv-replace', [CsvReplaceController::class, 'index'])->middleware('auth')->name('csv-replace.index');
+Route::post('/csv-replace/process', [CsvReplaceController::class, 'process'])->middleware('auth')->name('csv-replace.process');
+Route::post('/csv-replace/preview', [CsvReplaceController::class, 'preview'])->middleware('auth')->name('csv-replace.preview');
+Route::get('/csv-replace/download/{filename}', [CsvReplaceController::class, 'download'])->middleware('auth')->name('csv-replace.download');
+
+// CSV一括置換ツール（認証が必要）
+Route::get('/csv-replace/batch', [CsvReplaceController::class, 'batch'])->middleware('auth')->name('csv-replace.batch');
+Route::post('/csv-replace/batch-process', [CsvReplaceController::class, 'batchProcess'])->middleware('auth')->name('csv-replace.batch-process');
 
 // トップページ（未認証時はログイン画面へリダイレクト）
 Route::get('/', function () {
